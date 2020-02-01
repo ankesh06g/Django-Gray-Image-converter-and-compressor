@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block custom_css %}
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script> 
+<style>
+img{
+    width: 100%;
+    padding: 10px;
+}
+
+.box{
+    border: 1px solid blueviolet;
+    padding: 5px;
+    margin: 5px;
+}
+</style>
+{% endblock %}
+{% block title %}Gray Image Convertor and Compressor{% endblock %}
+{% block header %}
+<center><h1>Gray Image Convertor and Compressor</h1></center><br>
+<div class="row">
+    <div class="col-sm-12">
+        <center>
+            <h3>Unload your file here</h3>
+            <form method = "post" enctype="multipart/form-data"> 
+                {% csrf_token %} 
+                {{ form.as_p }} 
+                <b>Note: More Effective range for compression is 30 - 65 (eg. 35) </b><br>
+                <button type="submit" class="btn btn-dark">Upload</button> 
+            </form> 
+        </center>
+    </div>
+</div>
+{% endblock %}
+{% block body %}
+
+<center><h2>Click on Image to view</h2></center><br>
+<div class="row ">
+{% for img in images %} 
+<div class="col-sm-6">
+    <div class="row box">
+        <div class="col-sm-6">
+            <h6>Original</h6>
+            <a href="{{ img.original_img.url }}" download>
+                <img src="{{ img.original_img.url }}" alt="Your Image will come here">
+            </a>
+            Size: {{ img.original_size }}B
+        </div>
+        <div class="col-sm-6">
+            <h6>Converted (with {{img.quality}}%)</h6>
+            <a href="{{ img.converted_img.url }}" download>
+                <img src="{{ img.converted_img.url }}" alt="Converted Image will come here">
+            </a>
+            Size: {{ img.converted_size  }}B
+        </div>
+    </div>
+</div>
+{% endfor %} 
+</div>
+
+
+{% endblock %}
+{% block custom_js %}
+
+
+{% endblock %} 
